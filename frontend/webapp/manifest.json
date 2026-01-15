@@ -1,0 +1,119 @@
+{
+  "_version": "1.50.0",
+  "sap.app": {
+    "id": "rsu.ui",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "1.0.0"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "tags": {
+      "keywords": [
+        "RSU",
+        "Restricted Stock Units",
+        "LTI",
+        "Long Term Incentive"
+      ]
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/rsu-service/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "4.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "sap-icon://business-objects-experience",
+      "favIcon": "",
+      "phone": "",
+      "phone@2x": "",
+      "tablet": "",
+      "tablet@2x": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "dependencies": {
+      "minUI5Version": "1.108.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.f": {},
+        "sap.ui.layout": {}
+      }
+    },
+    "models": {
+      "": {
+        "dataSource": "mainService",
+        "type": "sap.ui.model.odata.v4.ODataModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay",
+          "defaultCountMode": "Inline",
+          "useBatch": true
+        }
+      },
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "rsu.ui.i18n.i18n"
+        }
+      }
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.f.routing.Router",
+        "viewType": "XML",
+        "async": true,
+        "path": "rsu.ui.view",
+        "controlId": "app",
+        "controlAggregation": "pages",
+        "transition": "slide"
+      },
+      "routes": [
+        {
+          "name": "RouteMain",
+          "pattern": "",
+          "target": ["TargetMain"]
+        },
+        {
+          "name": "RouteRSURequest",
+          "pattern": "request/{requestId}",
+          "target": ["TargetRSURequest"]
+        }
+      ],
+      "targets": {
+        "TargetMain": {
+          "id": "Main",
+          "name": "Main",
+          "level": 1,
+          "viewId": "Main",
+          "viewPath": "rsu.ui.view",
+          "viewType": "XML"
+        },
+        "TargetRSURequest": {
+          "id": "RSURequest",
+          "name": "RSURequest",
+          "level": 2,
+          "viewId": "RSURequest",
+          "viewPath": "rsu.ui.view",
+          "viewType": "XML"
+        }
+      }
+    }
+  },
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "transactional"
+  }
+}

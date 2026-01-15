@@ -1,0 +1,40 @@
+{
+  "name": "rsu-btp-app",
+  "version": "1.0.0",
+  "description": "SAP BTP Application for Adhoc RSU (Restricted Stock Units) Management - Extension from SuccessFactors",
+  "scripts": {
+    "build": "cds build/all",
+    "watch": "cds watch",
+    "start": "cds run",
+    "deploy": "cds deploy --to hana"
+  },
+  "dependencies": {
+    "@sap/cds": "^7",
+    "@sap/cds-hana": "^2",
+    "@sap/xssec": "^3",
+    "express": "^4",
+    "axios": "^1.6.0",
+    "passport": "^0.6.0"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^7"
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "sql"
+      },
+      "SuccessFactors": {
+        "kind": "rest",
+        "base": {
+          "url": "${SF_BASE_URL}",
+          "credentials": {
+            "username": "${SF_USERNAME}",
+            "password": "${SF_PASSWORD}"
+          }
+        }
+      }
+    }
+  }
+}

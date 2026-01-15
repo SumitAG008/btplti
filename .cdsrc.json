@@ -1,0 +1,19 @@
+{
+  "build": {
+    "target": ".",
+    "tasks": [
+      {
+        "for": "node-cf",
+        "src": ["srv/**/*.js", "db/**/*.cds"],
+        "options": {
+          "model": ["db", "srv"]
+        }
+      }
+    ]
+  },
+  "requires": {
+    "db": {
+      "kind": "sql"
+    }
+  }
+}

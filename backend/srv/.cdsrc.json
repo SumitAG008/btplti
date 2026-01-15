@@ -1,0 +1,14 @@
+{
+  "requires": {
+    "SuccessFactors": {
+      "kind": "rest",
+      "base": {
+        "url": "${SF_BASE_URL}",
+        "credentials": {
+          "username": "${SF_USERNAME}",
+          "password": "${SF_PASSWORD}"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "rsu-service",
+  "version": "1.0.0",
+  "description": "Backend service for RSU BTP Application",
+  "dependencies": {
+    "@sap/cds": "^7",
+    "@sap/cds-hana": "^2",
+    "@sap/xssec": "^3",
+    "express": "^4",
+    "axios": "^1.6.0",
+    "passport": "^0.6.0"
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "hana"
+      }
+    }
+  },
+  "engines": {
+    "node": "^18"
+  }
+}

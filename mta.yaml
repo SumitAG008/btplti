@@ -1,0 +1,88 @@
+_schema-version: '3.1'
+ID: rsu-btp-app
+version: 1.0.0
+description: "SAP BTP Application for Adhoc RSU Management - SuccessFactors Extension"
+
+parameters:
+  enable-parallel-deployments: true
+
+modules:
+  - name: rsu-service
+    type: nodejs
+    path: backend
+    parameters:
+      buildpack: nodejs_buildpack
+      memory: 512M
+      disk-quota: 512M
+    requires:
+      - name: rsu-db
+      - name: rsu-uaa
+      - name: successfactors-destination
+    provides:
+      - name: rsu-api
+        properties:
+          url: ${default-url}
+
+  - name: rsu-ui
+    type: html5
+    path: frontend
+    parameters:
+      buildpack: staticfile_buildpack
+      memory: 128M
+      disk-quota: 128M
+    requires:
+      - name: rsu-api
+      - name: rsu-uaa
+
+resources:
+  - name: rsu-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+
+  - name: rsu-uaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      config:
+        xsappname: rsu-btp-app
+        tenant-mode: dedicated
+        scopes:
+          - name: $XSAPPNAME.Display
+            description: Display RSU requests
+          - name: $XSAPPNAME.Edit
+            description: Create and edit RSU requests
+          - name: $XSAPPNAME.Approve
+            description: Approve RSU requests
+          - name: $XSAPPNAME.Admin
+            description: Admin access
+        role-templates:
+          - name: RSU_Viewer
+            description: View RSU requests
+            scope-references:
+              - $XSAPPNAME.Display
+          - name: RSU_Editor
+            description: Create and edit RSU requests
+            scope-references:
+              - $XSAPPNAME.Display
+              - $XSAPPNAME.Edit
+          - name: RSU_Approver
+            description: Approve RSU requests
+            scope-references:
+              - $XSAPPNAME.Display
+              - $XSAPPNAME.Edit
+              - $XSAPPNAME.Approve
+          - name: RSU_Admin
+            description: Full admin access
+            scope-references:
+              - $XSAPPNAME.Display
+              - $XSAPPNAME.Edit
+              - $XSAPPNAME.Approve
+              - $XSAPPNAME.Admin
+
+  - name: successfactors-destination
+    type: org.cloudfoundry.existing-service
+    parameters:
+      serviceName: successfactors-destination

@@ -1,0 +1,68 @@
+name: Deploy to SAP BTP
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: |
+        npm install
+        if [ -d "backend" ]; then
+          cd backend && npm install && cd ..
+        fi
+        if [ -d "frontend" ]; then
+          cd frontend && npm install && cd ..
+        fi
+        
+    - name: Install MTA Build Tool
+      run: npm install -g mbt
+      
+    - name: Build MTA
+      run: mbt build
+      continue-on-error: true
+      
+    - name: Setup Cloud Foundry CLI
+      run: |
+        wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+        echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+        sudo apt-get update
+        sudo apt-get install -y cf-cli
+        
+    - name: Login to Cloud Foundry
+      env:
+        CF_API: ${{ secrets.CF_API }}
+        CF_ORG: ${{ secrets.CF_ORG }}
+        CF_SPACE: ${{ secrets.CF_SPACE }}
+        CF_USERNAME: ${{ secrets.CF_USERNAME }}
+        CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
+      run: |
+        cf login -a "$CF_API" -u "$CF_USERNAME" -p "$CF_PASSWORD" -o "$CF_ORG" -s "$CF_SPACE" --skip-ssl-validation
+        
+    - name: Deploy to BTP
+      run: |
+        if [ -f "mta_archives/rsu-btp-app_1.0.0.mtar" ]; then
+          cf deploy mta_archives/rsu-btp-app_1.0.0.mtar
+        else
+          echo "MTA archive not found. Build may have failed."
+          exit 1
+        fi
+        
+    - name: Deployment Status
+      if: always()
+      run: |
+        echo "Deployment completed. Check Cloud Foundry logs for details."
