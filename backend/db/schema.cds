@@ -3,7 +3,7 @@ namespace RSU;
 // RSU Request Entity - Handles both Employees and Candidates
 entity RSURequests {
   key ID: UUID;
-  requestNumber: String(20) unique;
+  requestNumber: String(20);
   requestType: String(20); // 'EMPLOYEE' or 'CANDIDATE'
   employeeId: String(50); // SuccessFactors Employee ID
   candidateId: String(50); // SmartRecruiters Candidate ID (if applicable)
@@ -47,18 +47,18 @@ entity RSURequests {
   createdBy: String(100);
   createdAt: DateTime @cds.on.insert: $now;
   changedBy: String(100);
-  changedAt: DateTime @cds.on.insert: $now, @cds.on.update: $now;
+  changedAt: DateTime @cds.on.insert: $now;
   
   // Associations
-  budget: Association to Budgets on budget.id = budgetId;
-  vestingSchedule: Association to VestingSchedules on vestingSchedule.id = vestingScheduleId;
+  budget: Association to Budgets on budget.ID = budgetId;
+  vestingSchedule: Association to VestingSchedules on vestingSchedule.ID = vestingScheduleId;
   approvals: Association to many ApprovalWorkflows on approvals.requestId = $self.ID;
 }
 
 // Budget Entity - Single budget for both Employees and Candidates
 entity Budgets {
   key ID: UUID;
-  budgetCode: String(50) unique;
+  budgetCode: String(50);
   budgetName: String(200);
   boardArea: String(100);
   fiscalYear: Integer;
@@ -78,7 +78,7 @@ entity Budgets {
   createdBy: String(100);
   createdAt: DateTime @cds.on.insert: $now;
   changedBy: String(100);
-  changedAt: DateTime @cds.on.insert: $now, @cds.on.update: $now;
+  changedAt: DateTime @cds.on.insert: $now;
   
   // Associations
   requests: Association to many RSURequests on requests.budgetId = $self.ID;
@@ -102,7 +102,7 @@ entity ApprovalWorkflows {
   createdBy: String(100);
   createdAt: DateTime @cds.on.insert: $now;
   changedBy: String(100);
-  changedAt: DateTime @cds.on.insert: $now, @cds.on.update: $now;
+  changedAt: DateTime @cds.on.insert: $now;
   
   // Associations
   request: Association to RSURequests on request.ID = requestId;
@@ -111,7 +111,7 @@ entity ApprovalWorkflows {
 // Vesting Schedule Entity
 entity VestingSchedules {
   key ID: UUID;
-  scheduleCode: String(50) unique;
+  scheduleCode: String(50);
   scheduleName: String(200);
   description: String(500);
   
@@ -128,7 +128,7 @@ entity VestingSchedules {
   createdBy: String(100);
   createdAt: DateTime @cds.on.insert: $now;
   changedBy: String(100);
-  changedAt: DateTime @cds.on.insert: $now, @cds.on.update: $now;
+  changedAt: DateTime @cds.on.insert: $now;
   
   // Associations
   requests: Association to many RSURequests on requests.vestingScheduleId = $self.ID;

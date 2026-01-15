@@ -2,18 +2,27 @@
   "name": "rsu-service",
   "version": "1.0.0",
   "description": "Backend service for RSU BTP Application",
+  "scripts": {
+    "watch": "cds watch",
+    "start": "cds run",
+    "build": "cds build/all"
+  },
   "dependencies": {
-    "@sap/cds": "^7",
-    "@sap/cds-hana": "^2",
+    "@sap/cds": "^9",
+    "@cap-js/hana": "^2",
     "@sap/xssec": "^3",
     "express": "^4",
     "axios": "^1.6.0",
     "passport": "^0.6.0"
   },
+  "devDependencies": {
+    "@cap-js/sqlite": "^2",
+    "@sap/cds-dk": "^9"
+  },
   "cds": {
     "requires": {
       "db": {
-        "kind": "hana"
+        "kind": "sql"
       }
     }
   },
