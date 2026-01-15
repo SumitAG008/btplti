@@ -7,14 +7,22 @@ module.exports = cds.service.impl(async function() {
   // Validation function
   this.on('validateRSURequest', async (req) => {
     const { requestId } = req.data
+    
+    if (!requestId) {
+      return req.error(400, 'Request ID is required')
+    }
+    
     const request = await SELECT.one.from(RSURequests).where({ ID: requestId })
     
     if (!request) {
-      return req.error(404, 'Request not found')
+      return req.error(404, `RSU Request with ID ${requestId} not found`)
     }
 
     // Validate budget availability
     const budget = await SELECT.one.from(Budgets).where({ ID: request.budgetId })
+    if (!budget) {
+      return req.error(404, 'Budget not found')
+    }
     if (budget.remainingBudget < request.totalValue) {
       return req.error(400, 'Insufficient budget available')
     }
@@ -43,13 +51,22 @@ module.exports = cds.service.impl(async function() {
   // Calculate vesting value
   this.on('calculateVestingValue', async (req) => {
     const { requestId } = req.data
+    
+    if (!requestId) {
+      return req.error(400, 'Request ID is required')
+    }
+    
     const request = await SELECT.one.from(RSURequests).where({ ID: requestId })
     
     if (!request) {
-      return req.error(404, 'Request not found')
+      return req.error(404, `RSU Request with ID ${requestId} not found`)
     }
 
     const vestingSchedule = await SELECT.one.from(VestingSchedules).where({ ID: request.vestingScheduleId })
+    if (!vestingSchedule) {
+      return req.error(404, 'Vesting schedule not found')
+    }
+    
     const totalValue = request.numberOfShares * request.sharePrice
     
     // Calculate based on vesting schedule
@@ -67,7 +84,16 @@ module.exports = cds.service.impl(async function() {
   // Check budget availability
   this.on('checkBudgetAvailability', async (req) => {
     const { budgetId, amount } = req.data
+    
+    if (!budgetId) {
+      return req.error(400, 'Budget ID is required')
+    }
+    
     const budget = await SELECT.one.from(Budgets).where({ ID: budgetId })
+    
+    if (!budget) {
+      return req.error(404, 'Budget not found')
+    }
     
     return budget.remainingBudget >= amount
   })

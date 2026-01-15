@@ -1,0 +1,2 @@
+ID;budgetCode;budgetName;boardArea;fiscalYear;totalBudget;allocatedBudget;remainingBudget;currency;employeeBudget;candidateBudget;isActive;createdBy;createdAt;changedBy;changedAt
+550e8400-e29b-41d4-a716-446655440000;BUDGET-2026-Q1;Q1 2026 RSU Budget;Global;2026;10000000.00;0.00;10000000.00;USD;6000000.00;4000000.00;true;system;2026-01-15T00:00:00Z;system;2026-01-15T00:00:00Z

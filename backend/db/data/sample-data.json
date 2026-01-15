@@ -1,0 +1,54 @@
+{
+  "RSU.Budgets": [
+    {
+      "ID": "550e8400-e29b-41d4-a716-446655440000",
+      "budgetCode": "BUDGET-2026-Q1",
+      "budgetName": "Q1 2026 RSU Budget",
+      "boardArea": "Global",
+      "fiscalYear": 2026,
+      "totalBudget": 10000000.00,
+      "allocatedBudget": 0.00,
+      "remainingBudget": 10000000.00,
+      "currency": "USD",
+      "employeeBudget": 6000000.00,
+      "candidateBudget": 4000000.00,
+      "isActive": true,
+      "createdBy": "system",
+      "createdAt": "2026-01-15T00:00:00Z",
+      "changedBy": "system",
+      "changedAt": "2026-01-15T00:00:00Z"
+    }
+  ],
+  "RSU.VestingSchedules": [
+    {
+      "ID": "550e8400-e29b-41d4-a716-446655440001",
+      "scheduleCode": "STANDARD-4YR",
+      "scheduleName": "Standard 4-Year Vesting",
+      "description": "Standard 4-year vesting with 1-year cliff",
+      "vestingPeriod": 48,
+      "vestingType": "GRADED",
+      "cliffPeriod": 12,
+      "vestingPercentage": 25.00,
+      "isActive": true,
+      "createdBy": "system",
+      "createdAt": "2026-01-15T00:00:00Z",
+      "changedBy": "system",
+      "changedAt": "2026-01-15T00:00:00Z"
+    },
+    {
+      "ID": "550e8400-e29b-41d4-a716-446655440002",
+      "scheduleCode": "PERFORMANCE-3YR",
+      "scheduleName": "Performance-Based 3-Year",
+      "description": "3-year performance-based vesting",
+      "vestingPeriod": 36,
+      "vestingType": "PERFORMANCE",
+      "cliffPeriod": 12,
+      "vestingPercentage": 33.33,
+      "isActive": true,
+      "createdBy": "system",
+      "createdAt": "2026-01-15T00:00:00Z",
+      "changedBy": "system",
+      "changedAt": "2026-01-15T00:00:00Z"
+    }
+  ]
+}
