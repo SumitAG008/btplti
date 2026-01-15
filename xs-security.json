@@ -1,0 +1,58 @@
+{
+  "xsappname": "rsu-btp-app",
+  "tenant-mode": "dedicated",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.Display",
+      "description": "Display RSU requests"
+    },
+    {
+      "name": "$XSAPPNAME.Edit",
+      "description": "Create and edit RSU requests"
+    },
+    {
+      "name": "$XSAPPNAME.Approve",
+      "description": "Approve RSU requests"
+    },
+    {
+      "name": "$XSAPPNAME.Admin",
+      "description": "Full administrative access"
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "RSU_Viewer",
+      "description": "View RSU requests",
+      "scope-references": [
+        "$XSAPPNAME.Display"
+      ]
+    },
+    {
+      "name": "RSU_Editor",
+      "description": "Create and edit RSU requests",
+      "scope-references": [
+        "$XSAPPNAME.Display",
+        "$XSAPPNAME.Edit"
+      ]
+    },
+    {
+      "name": "RSU_Approver",
+      "description": "Approve RSU requests",
+      "scope-references": [
+        "$XSAPPNAME.Display",
+        "$XSAPPNAME.Edit",
+        "$XSAPPNAME.Approve"
+      ]
+    },
+    {
+      "name": "RSU_Admin",
+      "description": "Full admin access",
+      "scope-references": [
+        "$XSAPPNAME.Display",
+        "$XSAPPNAME.Edit",
+        "$XSAPPNAME.Approve",
+        "$XSAPPNAME.Admin"
+      ]
+    }
+  ]
+}

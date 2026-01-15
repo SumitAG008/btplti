@@ -1,0 +1,18 @@
+---
+applications:
+  - name: rsu-service
+    path: backend
+    memory: 512M
+    disk_quota: 512M
+    instances: 1
+    buildpacks:
+      - nodejs_buildpack
+    env:
+      CDS_ENV: production
+      NODE_ENV: production
+    services:
+      - rsu-db
+      - rsu-uaa
+      - successfactors-destination
+    routes:
+      - route: rsu-service-${CF_SPACE}.cfapps.us10-001.hana.ondemand.com
